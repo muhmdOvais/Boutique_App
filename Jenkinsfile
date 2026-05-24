@@ -3,52 +3,63 @@ pipeline {
 
     environment {
         AWS_REG = 'ap-northeast-1'
-        // Add other env vars here if needed
+        CLUSTER_NAME = 'boutique-eks-cluster'
     }
 
     stages {
+
         stage('Checkout Code') {
             steps {
-                git branch: 'main', url: 'https://github.com/sujithchandran1/Boutique_App.git'
+                git branch: 'main', url: 'https://github.com/muhmdOvais/Boutique_App.git'
             }
         }
 
-        stage('Configure & Build') {
+        stage('Configure AWS & EKS') {
             steps {
-                withCredentials([aws(credentialsId: 'aws-cred')]) {
+                withCredentials([aws(credentialsId: 'aws-creds')]) {
                     sh """
-                    # Setup Kubeconfig
-                    aws eks update-kubeconfig --region ${AWS_REG} --name demo-cluster
-                    
-                    # Run your build script
-                    chmod +x Microservices/docker_image_buid_push.sh
-                    ./Microservices/docker_image_buid_push.sh
+                    aws eks update-kubeconfig --region ${AWS_REG} --name ${CLUSTER_NAME}
                     """
                 }
             }
         }
 
-        stage('Deploy to EKS') {
+        stage('Build & Push Docker Images') {
             steps {
-                // IMPORTANT: kubectl needs the AWS keys to authenticate with the EKS cluster
-                withCredentials([aws(credentialsId: 'aws-cred')]) {
-                    sh "kubectl apply -f Microservices/kubernetes-manifests"
+                withCredentials([aws(credentialsId: 'aws-creds')]) {
+                    sh """
+                    cd Microservices
+                    chmod +x docker_image_buid_push.sh
+                    ./docker_image_buid_push.sh
+                    """
                 }
             }
         }
 
-        stage('Verify') {
+        stage('Deploy to Kubernetes') {
             steps {
-                withCredentials([aws(credentialsId: 'aws-cred')]) {
-                    sh "kubectl get pods"
+                withCredentials([aws(credentialsId: 'aws-creds')]) {
+                    sh """
+                    kubectl apply -f Microservices/kubernetes-manifests
+                    """
+                }
+            }
+        }
+
+        stage('Verify Deployment') {
+            steps {
+                withCredentials([aws(credentialsId: 'aws-creds')]) {
+                    sh """
+                    kubectl get pods
+                    kubectl get svc
+                    """
                 }
             }
         }
     }
-    // Optional - to delete the unwanted cache.
+
     post {
         always {
-            // Cleanup to prevent the "No Space" error from coming back
             sh 'docker system prune -f'
             cleanWs()
         }
