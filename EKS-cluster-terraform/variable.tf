@@ -3,7 +3,7 @@ variable "region" {
 }
 
 variable "cluster_name" {
-  default = "demo-cluster"
+  default = "boutique-eks-cluster"
 }
 
 variable "subnet_ids" {
