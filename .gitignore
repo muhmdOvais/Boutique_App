@@ -1,0 +1,11 @@
+terraform.tfstate
+terraform.tfstate.backup
+.terraform/
+*.pem
+*.key
+*.tfvars
+kubeconfig
+node_modules/
+.DS_Store
+.env
+.env.*
