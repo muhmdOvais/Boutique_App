@@ -25,7 +25,7 @@ This project automates:
 
 # 🏗️ Complete Architecture Diagram
 
-![Architecture Diagram](./Outputs/architecture-diagram.png)
+<img width="1536" height="1024" alt="ChatGPT Image May 26, 2026, 05_41_40 PM" src="https://github.com/user-attachments/assets/8607b7c4-8263-479c-a36b-70b527c770c9" />
 
 ---
 
