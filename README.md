@@ -5,9 +5,6 @@
 ### 🔗 Application URL
 https://ovaisportfolio.in
 
-### 📊 Grafana Monitoring Dashboard
-http://ad4f099ab5e814da5adeedfce7cf9009-1832564091.ap-northeast-1.elb.amazonaws.com
-
 ---
 
 # 📌 Project Overview
