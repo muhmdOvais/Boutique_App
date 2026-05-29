@@ -1,12 +1,5 @@
 # 🚀 Boutique_App — Production Grade DevOps Project
 
-## 🌐 Live Project
-
-### 🔗 Application URL
-https://ovaisportfolio.in
-
----
-
 # 📌 Project Overview
 
 Boutique_App is a complete end-to-end Production-Style DevOps implementation of a cloud-native microservices-based e-commerce application deployed on AWS EKS using Kubernetes, Docker, Jenkins CI/CD, Terraform, Prometheus, Grafana, Route53, ACM SSL, and AWS ALB Ingress.
